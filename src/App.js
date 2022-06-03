@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import Anime from "./components/Anime/Anime";
 import Header from "./components/Layout/Header";
 
