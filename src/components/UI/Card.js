@@ -10,7 +10,7 @@ const CardContainer = styled.div`
 `;
 
 const Card = (props) => {
-  return <CardContainer>{props.children}</CardContainer>;
+  return <CardContainer onClick={props.onClick}>{props.children}</CardContainer>;
 };
 
 export default Card;

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import Header from "../Layout/Header";
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import Form from '../AnimeCollection/Form';
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import Form from "../AnimeCollection/Form";
 
 const DetailContainer = styled.section`
   padding: 0.7rem auto;
@@ -50,20 +50,19 @@ const SpanText = styled.span`
 `;
 
 const AddToCollection = styled.button`
-  background-color: #D61C4E;
-  border: 1px solid #D61C4E;
+  background-color: #d61c4e;
+  border: 1px solid #d61c4e;
   color: white;
   padding: 0.4rem 0.8rem;
   border-radius: 7px;
   display: flex;
-  justifyContent: center;
-  alignItems: center;
+  align-items: center;
   cursor: pointer;
-`
+`;
 
 const AnimeDetail = () => {
   const [isModalShown, setIsModalShown] = useState(false);
-  const [animeCollection, setAnimeCollection] = useState(null);
+  const [numAnimeCollection, setNumAnimeCollection] = useState(localStorage.length);
   const { state } = useLocation();
   console.log("state", state);
 
@@ -71,31 +70,30 @@ const AnimeDetail = () => {
   const endDate = `${state.media.endDate.day}-${state.media.endDate.month}-${state.media.endDate.year}`;
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('collections'));
-    if(data) {
-      setAnimeCollection(data);
-    }
-  }, [])
+  }, [numAnimeCollection]);
+
+  const setAnimeCollection = (data) => {
+    setNumAnimeCollection(data);
+  }
 
   const showModalHandler = () => {
     setIsModalShown(true);
-  }
+  };
 
   const hideModalHandler = () => {
     setIsModalShown(false);
-  }
-
-  const handleModal = () => {
-    if(!animeCollection) {
-      showModalHandler();
-    } 
-  }
-
-  console.log('data: ', animeCollection);
+  };
 
   return (
     <DetailContainer>
-      {isModalShown && <Form onHide={hideModalHandler} animeCollection={animeCollection}/>}
+      {isModalShown && (
+        <Form
+          onHide={hideModalHandler}
+          onSetAnimeCollection={setAnimeCollection}
+          animeCollection={numAnimeCollection}
+          animeObj={state}
+        />
+      )}
       <Header />
       <BannerCover src={state.media.bannerImage} />
 
@@ -103,9 +101,13 @@ const AnimeDetail = () => {
         <Title>{state.media.title.english}</Title>
 
         <Image src={state.media.coverImage.large} />
-        <AddToCollection onClick={handleModal}>
-          <FavoriteBorderOutlinedIcon fontSize="small" sx={{ marginRight: '0.5rem' }}/>
-          Add to Collection</AddToCollection>
+        <AddToCollection onClick={showModalHandler}>
+          <FavoriteBorderOutlinedIcon
+            fontSize="small"
+            sx={{ marginRight: "0.5rem" }}
+          />
+          Add to Collection
+        </AddToCollection>
 
         <div>
           <div>
