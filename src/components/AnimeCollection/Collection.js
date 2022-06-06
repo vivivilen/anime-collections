@@ -29,6 +29,10 @@ const AddaCollection = styled.button`
   cursor: pointer;
 `;
 
+const InfoText = styled.h1`
+  margin: auto;
+`
+
 const Collection = () => {
   const [isModalShown, setIsModalShown] = useState(false);
   let value = new Map();
@@ -48,7 +52,11 @@ const Collection = () => {
   };
 
   useEffect(() => {
+    if(numAnimeCollection <= 0) {
+      return;
+    }
     fetchData();
+
   }, [numAnimeCollection]);
 
   const setAnimeCollection = (data) => {
@@ -68,7 +76,6 @@ const Collection = () => {
     localStorage.removeItem(id);
     setCollectionName(updatedCollection);
     setAnimeCollection(localStorage.length);
-    hideModalHandler();
   };
 
   return (
@@ -78,6 +85,7 @@ const Collection = () => {
         <Form
           params="addCollection"
           onHide={hideModalHandler}
+          animeCollection={numAnimeCollection}
           onSetAnimeCollection={setAnimeCollection}
         />
       )}
@@ -85,6 +93,7 @@ const Collection = () => {
         Add a Collection
       </AddaCollection>
       <CollectionWrapper>
+      {numAnimeCollection <= 0 && <InfoText>No Collection yet</InfoText>}
         {collectionName.map((val, index) => (
           <CollectionItem
             key={index}

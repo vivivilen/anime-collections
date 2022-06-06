@@ -62,19 +62,22 @@ const AddToCollection = styled.button`
 
 const AnimeDetail = () => {
   const [isModalShown, setIsModalShown] = useState(false);
-  const [numAnimeCollection, setNumAnimeCollection] = useState(localStorage.length);
+  const [numAnimeCollection, setNumAnimeCollection] = useState(
+    localStorage.length
+  );
   const { state } = useLocation();
-  console.log("state", state);
 
+  const title = state.media.title.english
+    ? state.media.title.english
+    : state.media.title.native;
   const startDate = `${state.media.startDate.day}-${state.media.startDate.month}-${state.media.startDate.year}`;
   const endDate = `${state.media.endDate.day}-${state.media.endDate.month}-${state.media.endDate.year}`;
 
-  useEffect(() => {
-  }, [numAnimeCollection]);
+  useEffect(() => {}, [numAnimeCollection]);
 
   const setAnimeCollection = (data) => {
     setNumAnimeCollection(data);
-  }
+  };
 
   const showModalHandler = () => {
     setIsModalShown(true);
@@ -98,7 +101,7 @@ const AnimeDetail = () => {
       <BannerCover src={state.media.bannerImage} />
 
       <DetailWrapper>
-        <Title>{state.media.title.english}</Title>
+        <Title>{title}</Title>
 
         <Image src={state.media.coverImage.large} />
         <AddToCollection onClick={showModalHandler}>
@@ -119,7 +122,11 @@ const AnimeDetail = () => {
 
             <TagInformation>
               <SpanText>Title: </SpanText>
-              {`${state.media.title.english} / ${state.media.title.native}`}
+              {`${state.media.title.english ? state.media.title.english : ""} ${
+                !state.media.title.english || !state.media.title.native
+                  ? ""
+                  : "/"
+              } ${state.media.title.native ? state.media.title.native : ""}`}
             </TagInformation>
             <TagInformation>
               <SpanText>Genres: </SpanText>

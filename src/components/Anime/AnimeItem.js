@@ -43,9 +43,19 @@ const AnimeItem = (props) => {
 
   return (
     <AnimeItemWrapper>
-      {isModalShown && <Form params="removeAnimeFromCollection" onHide={hideModalHandler} onRemoveAnime={() => props.onRemoveAnime(props.animeData.id)}/>}
+      {isModalShown && (
+        <Form
+          params="removeAnimeFromCollection"
+          onHide={hideModalHandler}
+          onRemoveAnime={() => {
+            props.onRemoveAnime(props.animeData.id);
+            hideModalHandler();
+          }}
+          animeTitle={title}
+        />
+      )}
       {props.hasDeleteIcon && (
-        <ContainerIcon onClick={() => props.onRemoveAnime(props.animeData.id)}>
+        <ContainerIcon onClick={showModalHandler}>
           <HighlightOffIcon fontSize="large" />
         </ContainerIcon>
       )}

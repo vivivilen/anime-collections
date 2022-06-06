@@ -1,5 +1,6 @@
 import Navbar from "../Navbar/Navbar";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +12,9 @@ const Container = styled.div`
 const Header = () => {
   return (
     <Container>
-      <h1>AnimeLists</h1>
+      <Link to="/">
+        <h1>AnimeLists</h1>
+      </Link>
       <Navbar />
     </Container>
   );

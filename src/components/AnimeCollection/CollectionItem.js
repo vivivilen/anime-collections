@@ -64,7 +64,10 @@ const CollectionItem = (props) => {
           onHide={hideModalHandler}
           animeCollection={numAnimeCollection}
           onSetAnimeCollection={setAnimeCollection}
-          onRemoveCollection={() => onRemoveCollection(collectionName)}
+          onRemoveCollection={() => {
+            onRemoveCollection(collectionName);
+            hideModalHandler();
+          }}
           collectionName={collectionName}
         />
       )}

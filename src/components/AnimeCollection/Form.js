@@ -10,10 +10,17 @@ const Form = (props) => {
     params,
     collectionName,
     onRemoveCollection,
-    onHide
+    onHide,
+    onRemoveAnime,
+    animeTitle,
   } = props;
 
+  const [collectionNameHasError, setCollectionNameHasError] = useState(false);
+  const [collectionExist, setCollectionExist] = useState(false);
+
   const collectionInputRef = useRef();
+  const regexAZ = /[^a-zA-Z0-9 ]/g;
+  // values.Username.match(regexAZ)
 
   const InformationBox = styled.p`
     width: 100%;
@@ -86,15 +93,43 @@ const Form = (props) => {
     margin-left: 1rem;
   `;
 
+  const ErrorText = styled.p`
+    color: red;
+  `;
+
+  const RenderTextError = () => {
+    let msg = "";
+
+    if (collectionNameHasError) {
+      msg = "Collection name can't contain any special character.";
+    }
+
+    if (collectionExist) {
+      msg = "Collection name already exist.";
+    }
+
+    return <ErrorText>{msg}</ErrorText>;
+  };
+
   const NoAnimeCollectionContent = () => {
     const submitHandler = (e) => {
       e.preventDefault();
 
       const enteredCollectionName = collectionInputRef.current.value;
+      const isCollectionExist = localStorage.getItem(enteredCollectionName);
 
       if (!enteredCollectionName) return;
 
-      console.log("ref: ", collectionInputRef.current.value);
+      var collectionNameFlag = enteredCollectionName.match(regexAZ);
+      var collectionExistFlag = !!isCollectionExist;
+
+      setCollectionNameHasError(collectionNameFlag);
+      setCollectionExist(collectionExistFlag);
+
+      if (collectionExistFlag || collectionNameFlag) {
+        return;
+      }
+
       if (enteredCollectionName && !params) {
         localStorage.setItem(enteredCollectionName, JSON.stringify([animeObj]));
         // props.onSetAnimeCollection(localStorage.length);
@@ -121,10 +156,14 @@ const Form = (props) => {
           <InputFieldContainer>
             <Label htmlFor="collection-name">Collection Name</Label>
             <InputField
+              autoFocus
               ref={collectionInputRef}
               type="text"
               id="collection-name"
             />
+            <RenderTextError />
+            {/* {collectionNameHasError && <ErrorText>{nameHasError}</ErrorText>}
+            {collectionHasExist && <ErrorText>{collectionExist}</ErrorText>} */}
           </InputFieldContainer>
           <FormActions textCancel="Close" textSubmit="Submit" />
         </form>
@@ -187,7 +226,6 @@ const Form = (props) => {
         ))}
       </CheckBoxWrapper>
     );
-    console.log("checked", checkedCollection);
 
     return (
       <Fragment>
@@ -200,44 +238,22 @@ const Form = (props) => {
     );
   };
 
-  // const addCollectionContent = () => {
-  //   const submitHandler = (e) => {
-  //     e.preventDefault();
-
-  //     const enteredCollectionName = collectionInputRef.current.value;
-
-  //     console.log("ref: ", collectionInputRef.current.value);
-  //     if (enteredCollectionName) {
-  //       localStorage.setItem(enteredCollectionName, JSON.stringify([animeObj]));
-  //       props.onSetAnimeCollection(localStorage.length);
-  //       props.onHide();
-  //     } else {
-  //       console.log("kosong");
-  //     }
-  //   };
-
-  //   return (
-  //     <Fragment>
-  //       <form>
-  //         <InputFieldContainer>
-  //           <Label htmlFor="collection-name">Collection Name</Label>
-  //           <InputField
-  //             ref={collectionInputRef}
-  //             type="text"
-  //             id="collection-name"
-  //           />
-  //         </InputFieldContainer>
-  //         <FormActions />
-  //       </form>
-  //     </Fragment>
-  //   );
-  // };
-
   const RemoveCollectionContent = () => {
     return (
       <Fragment>
         <form onSubmit={onRemoveCollection}>
           <Label>{`Are you sure you want to delete ${collectionName} collection?`}</Label>
+          <FormActions textCancel="Cancel" textSubmit="Delete" />
+        </form>
+      </Fragment>
+    );
+  };
+
+  const RemoveAnimeContent = () => {
+    return (
+      <Fragment>
+        <form onSubmit={onRemoveAnime}>
+          <Label>{`Are you sure you want to delete ${animeTitle}?`}</Label>
           <FormActions textCancel="Cancel" textSubmit="Delete" />
         </form>
       </Fragment>
@@ -254,9 +270,11 @@ const Form = (props) => {
     );
   };
 
-  const showModal = () => {
+  const ShowModal = () => {
     if (params === "removeCollection") {
       return <RemoveCollectionContent />;
+    } else if (params === "removeAnimeFromCollection") {
+      return <RemoveAnimeContent />;
     } else if (animeCollection <= 0 || params === "addCollection") {
       return <NoAnimeCollectionContent />;
     }
@@ -265,7 +283,7 @@ const Form = (props) => {
 
   return (
     <Modal onHide={props.onHide}>
-      {showModal()}
+      <ShowModal />
     </Modal>
   );
 };

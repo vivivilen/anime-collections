@@ -7,6 +7,7 @@ const CardContainer = styled.div`
   background-color: white;
   width: 100%;
   max-width: 15rem;
+  cursor: pointer;
 `;
 
 const Card = (props) => {

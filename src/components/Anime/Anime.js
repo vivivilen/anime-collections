@@ -69,7 +69,6 @@ const Anime = () => {
             }}`,
       })
       .then(({ data }) => {
-        console.log("data: ", data);
         setPageInfo(data.data.Page.pageInfo);
         setAnimeList(data.data.Page.recommendations);
       });
@@ -80,12 +79,8 @@ const Anime = () => {
   }, [pageNum]);
 
   const onChange = (pageNumber) => {
-    console.log("page Num: ", pageNumber);
     setPageNum(pageNumber);
   };
-
-  console.log("page info:", pageInfo);
-  console.log("anime:", animeList);
 
   return (
     <Container>
