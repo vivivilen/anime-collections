@@ -23,12 +23,12 @@ const ContainerIcon = styled.div`
   position: absolute;
   right: 0;
   padding: 0.3rem;
+  cursor: pointer;
 `;
 
 const AnimeItem = (props) => {
   const [isModalShown, setIsModalShown] = useState(false);
   const { media } = props.animeData;
-  console.log("propssss: ", props.animeData);
 
   const title = media.title.english ? media.title.english : media.title.native;
   let navigate = useNavigate();
@@ -42,7 +42,7 @@ const AnimeItem = (props) => {
   };
 
   return (
-    <AnimeItemWrapper>
+    <AnimeItemWrapper data-testid='test'>
       {isModalShown && (
         <Form
           params="removeAnimeFromCollection"
@@ -61,7 +61,6 @@ const AnimeItem = (props) => {
       )}
       <Card
         onClick={() => {
-          console.log(media.title.english);
           navigate("/anime-detail", { state: props.animeData });
         }}
       >

@@ -85,12 +85,13 @@ const Anime = () => {
   return (
     <Container>
       <AnimeListWrapper>
-        {animeList.map((list) => (
+        {animeList.map((list) => {
+          return(
           <AnimeItem
             key={list.id}
             animeData={list}
           />
-        ))}
+        )})}
       </AnimeListWrapper>
       <Pagination
         onChange={onChange}

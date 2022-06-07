@@ -21,6 +21,7 @@ const ContainerIcon = styled.div`
   position: absolute;
   right: 0;
   padding: 0.3rem;
+  cursor: pointer;
 `;
 
 const Image = styled.img`

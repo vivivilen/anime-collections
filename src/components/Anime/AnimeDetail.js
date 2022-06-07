@@ -6,8 +6,10 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import Form from "../AnimeCollection/Form";
 
 const DetailContainer = styled.section`
-  padding: 0.7rem auto;
-  height: auto;
+  max-width: 70rem;
+  width: 90%;
+  margin: 2rem auto;
+  padding-bottom: 4rem;
 `;
 
 const BannerCover = styled.img`

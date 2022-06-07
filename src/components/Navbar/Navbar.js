@@ -13,7 +13,7 @@ const NavbarItem = styled.li`
   list-style: none;
   padding: 4px 8px;
   font-size: 1rem;
-  font-weight: bold;
+  color: black;
 `;
 
 const Navbar = () => {
