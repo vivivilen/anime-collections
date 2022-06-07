@@ -31,6 +31,8 @@ const AddaCollection = styled.button`
 
 const InfoText = styled.h1`
   margin: auto;
+  color: #bebebe;
+  text-align: center;
 `
 
 const Collection = () => {

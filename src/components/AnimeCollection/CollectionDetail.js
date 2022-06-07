@@ -23,6 +23,12 @@ const CollectionListWrapper = styled(Container)`
   flex-wrap: wrap;
 `;
 
+const InfoText = styled.h1`
+  margin: auto;
+  color: #bebebe;
+  text-align: center;
+`
+
 const CollectionDetail = () => {
   const [collectionDetailData, setCollectionDetailData] = useState([]);
   const [isModalShown, setIsModalShown] = useState(false);
@@ -49,6 +55,7 @@ const CollectionDetail = () => {
       <Header />
       <Title>{state}</Title>
       <CollectionListWrapper>
+        {collectionDetailData.length <= 0 && <InfoText>No Anime added to this collection</InfoText>}
         {collectionDetailData.map((data, index) => {
           return (
             <AnimeItem
